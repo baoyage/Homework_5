@@ -1,17 +1,15 @@
 package syr.project.homework_5
 
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
-import androidx.core.view.ViewPropertyAnimatorListener
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.NO_POSITION
 import kotlinx.android.synthetic.main.movie_list_item_left.view.*
-import androidx.recyclerview.widget.DefaultItemAnimator
-import jp.wasabeef.recyclerview.animators.holder.AnimateViewHolder
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MyMovieListAdapter(var movieList: ArrayList<MovieData>, var posterTable: MutableMap<String, Int>
@@ -53,7 +51,16 @@ class MyMovieListAdapter(var movieList: ArrayList<MovieData>, var posterTable: M
         val rVposterid= view?.rVPosterid
         val rVRating= view?.rVRating
         val rVCheckBox= view?.rVCheckBox
+        val overflow = view?.overflow
         init{
+            overflow?.setOnClickListener {
+                if(myListener != null){
+                    if(adapterPosition != androidx.recyclerview.widget.RecyclerView.NO_POSITION){
+                        myListener!!.onOverflowMenuClickedFromAdapter(it, adapterPosition)
+                    }
+                }
+            }
+
             rVCheckBox?.setOnCheckedChangeListener { rVCheckBox,isChecked->
                 movieList[this.adapterPosition].checked=isChecked
 
@@ -114,6 +121,9 @@ class MyMovieListAdapter(var movieList: ArrayList<MovieData>, var posterTable: M
     interface MyItemClickListener {
         fun onItemClickedFromAdapter(movie:MovieData, posterid: Int?)
         fun onItemLongClickedFromAdapter(position : Int)
+        fun onOverflowMenuClickedFromAdapter(it: View?, adapterPosition: Int) {
+
+        }
 
     }
     fun setSelectAll() {
@@ -152,12 +162,29 @@ class MyMovieListAdapter(var movieList: ArrayList<MovieData>, var posterTable: M
 //        notifyDataSetChanged()
 //        notifyItemRemoved()
     }
+    fun deleteMovies(position: Int){
+        movieList.removeAt(position)
+        notifyItemRemoved(position)
+
+    }
     fun duplicateMovie(position: Int){
 
         var movie=movieList[position].copy()
         movieList.add(position+1,movie)
         notifyItemInserted(position+1)
 //        notifyDataSetChanged()
+
+    }
+    fun findFirst(query: String): Int {
+        for(i in movieList.indices){
+            if(movieList[i].title.toLowerCase(Locale.ROOT).contains(query.toLowerCase(Locale.ROOT)))
+                return i
+        }
+        return -1
+    }
+
+    fun getItem(position: Int): Any {
+        return movieList[position ]
 
     }
 
