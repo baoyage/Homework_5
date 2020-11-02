@@ -1,32 +1,29 @@
 package syr.project.homework_5
 
 import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.appcompat.view.menu.MenuBuilder
 import androidx.appcompat.view.menu.MenuPopupHelper
 import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.widget.SearchView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
 import jp.wasabeef.recyclerview.adapters.AlphaInAnimationAdapter
 import jp.wasabeef.recyclerview.adapters.ScaleInAnimationAdapter
 import jp.wasabeef.recyclerview.animators.SlideInLeftAnimator
-import kotlinx.android.synthetic.main.activity_task2.*
-import kotlinx.android.synthetic.main.activity_task3.*
-
-
 import kotlinx.android.synthetic.main.fragment_recycler_view.*
-import java.util.Arrays.sort
-import java.util.Collections.sort
+import kotlinx.android.synthetic.main.fragment_recycler_view.clearAll
+import kotlinx.android.synthetic.main.fragment_recycler_view.delete
+import kotlinx.android.synthetic.main.fragment_recycler_view.recyclerView
+import kotlinx.android.synthetic.main.fragment_recycler_view.selectAll
+import kotlinx.android.synthetic.main.fragment_recycler_view_task3.*
 
-class RecyclerViewFragment() : Fragment(),
-    MyMovieListAdapter.MyItemClickListener{
 
+class RecyclerViewTask3Fragment : Fragment() ,MyMovieListAdapter.MyItemClickListener{
     private var listener: OnRecyclerInteractionListener? = null
     var myAdapter=MyMovieListAdapter(ArrayList(MovieList().movieList),MovieList().posterTable)
     var mL=ArrayList(MovieList().movieList)
@@ -90,6 +87,16 @@ class RecyclerViewFragment() : Fragment(),
         super.onCreate(savedInstanceState)
         retainInstance=true
         setHasOptionsMenu(true)
+//        bottom_nav.setOnNavigationItemSelectedListener {
+//            when(it.itemId){
+//                R.id.action_star ->{
+//                    myAdapter.sortItemsByRating()
+//                }
+//            }
+//            myAdapter.notifyDataSetChanged()
+//
+//            true
+//        }
 
 
 
@@ -100,12 +107,22 @@ class RecyclerViewFragment() : Fragment(),
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_recycler_view, container, false)
+        return inflater.inflate(R.layout.fragment_recycler_view_task3, container, false)
 //        toolBarTitle!!.text="Movie List"
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+                bottom_nav.setOnNavigationItemSelectedListener {
+            when(it.itemId){
+                R.id.action_star ->{
+                    myAdapter.sortItemsByRating()
+                }
+            }
+            myAdapter.notifyDataSetChanged()
+
+            true
+        }
         recyclerView.layoutManager= GridLayoutManager(context,1)
 //        val myAdapter= MyMovieListAdapter(movieList ,posterTable)
         myAdapter.setMyItemClickListener(this)
@@ -230,6 +247,15 @@ class RecyclerViewFragment() : Fragment(),
         when(item!!.itemId){
             R.id.action_alphabet ->
                 myAdapter.sortItemsByTitle()
+            R.id.action_hide ->{
+                if(bottom_nav.visibility==View.GONE){
+                    bottom_nav.visibility=View.VISIBLE
+                }
+                else{
+                    bottom_nav.visibility=View.GONE
+                }
+            }
+
 
 
 
@@ -270,17 +296,4 @@ class RecyclerViewFragment() : Fragment(),
         menuHelper.show()
     }
 
-
-//    companion object {
-//
-//        @JvmStatic
-//        fun newInstance(param1: String, param2: String) =
-//            RecyclerViewFragment(movieList, posterTable).apply {
-//                arguments = Bundle().apply {
-//
-//                }
-//            }
-//    }
 }
-
-

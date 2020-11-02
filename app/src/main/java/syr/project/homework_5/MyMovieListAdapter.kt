@@ -187,6 +187,19 @@ class MyMovieListAdapter(var movieList: ArrayList<MovieData>, var posterTable: M
         return movieList[position ]
 
     }
+    fun sortItemsByTitle(){
+        var mL=movieList.sortedBy { it.title }
+        movieList=ArrayList(mL)
+        notifyDataSetChanged()
+    }
+    fun sortItemsByRating(){
+        var mL=movieList.sortedBy { it.vote_average }
+        movieList=ArrayList(mL)
+        notifyDataSetChanged()
+    }
+
+
+
 
 
 }

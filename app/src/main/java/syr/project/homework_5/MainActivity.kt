@@ -43,15 +43,21 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 intent.putExtra("action", 0)
                 startActivity(intent)
             }
-//            R.id.task3 -> {
-//                val intent = Intent(this, TwoThreeActivity::class.java)
-//                intent.putExtra("action", 1)
-//                startActivity(intent)
-//            }
+            R.id.task3 -> {
+                val intent = Intent(this, Task3Activity::class.java)
+                intent.putExtra("action", 0)
+                startActivity(intent)
+            }
 
         }
         mainAct.closeDrawer(GravityCompat.START)
         return true
+    }
+    override fun onBackPressed() {
+        if (mainAct.isDrawerOpen(GravityCompat.START)) {
+            mainAct.closeDrawer(GravityCompat.START)
+        } else
+            super.onBackPressed()
     }
 
 

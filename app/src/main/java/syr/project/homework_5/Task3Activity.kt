@@ -2,11 +2,14 @@ package syr.project.homework_5
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_task2.*
+import kotlinx.android.synthetic.main.activity_task2.toolBarTitle
+import kotlinx.android.synthetic.main.activity_task2.toolbarTask2
+import kotlinx.android.synthetic.main.activity_task3.*
+import syr.project.homework_5.DetailFragment.Companion.newInstance
 
-class Task2Activity : AppCompatActivity(),RecyclerViewFragment.OnRecyclerInteractionListener {
+class Task3Activity : AppCompatActivity(),RecyclerViewTask3Fragment.OnRecyclerInteractionListener {
     var movie: MovieData? =null
     var posterid: Int? =null
     private var mTwoPane = false
@@ -14,16 +17,22 @@ class Task2Activity : AppCompatActivity(),RecyclerViewFragment.OnRecyclerInterac
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_task2)
-        setSupportActionBar(toolbarTask2)
+        setContentView(R.layout.activity_task3)
+        setSupportActionBar(toolbarTask3)
+//        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+//        supportActionBar?.setDisplayShowTitleEnabled(false)
+
 
         if(savedInstanceState==null){
             val appBar = supportActionBar
             appBar!!.title = null
             toolBarTitle!!.text="Movie List"
 
-            supportFragmentManager.beginTransaction().replace(R.id.fragment1,RecyclerViewFragment()).commit()
+            supportFragmentManager.beginTransaction().replace(R.id.fragment1,RecyclerViewTask3Fragment()).commit()
         }
+
+
+
 
 
     }
@@ -35,8 +44,4 @@ class Task2Activity : AppCompatActivity(),RecyclerViewFragment.OnRecyclerInterac
             posterid!!
         )).addToBackStack(null).commit()
     }
-
-
-
-
 }

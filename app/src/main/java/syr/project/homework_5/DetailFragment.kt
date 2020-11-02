@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.activity_task2.*
 import kotlinx.android.synthetic.main.fragment_detail.*
 import java.io.Serializable
+import syr.project.homework_5.Task2Activity as Task2Activity
 
 private const val ARG_MOV1 = "movie"
 private const val ARG_MOV2 = "posterid"
@@ -60,7 +61,16 @@ class DetailFragment : Fragment() {
 //        (activity as Task2Activity).supportActionBar?.title = "Movie List"
 //        (activity as Task2Activity)
 //        activity!!.title="Movie List"
-        (activity as Task2Activity).toolBarTitle!!.text = "Movie List"
+        if(activity?.javaClass?.simpleName=="Task2Activity"){
+            (activity as Task2Activity).toolBarTitle!!.text = "Movie List"
+        }
+        else{
+            (activity as Task3Activity).toolBarTitle!!.text = "Movie List"
+        }
+
+
+
+
 
     }
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -77,6 +87,7 @@ class DetailFragment : Fragment() {
         super.onCreateOptionsMenu(menu, inflater)
 
     }
+
 
 
     companion object {
